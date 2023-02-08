@@ -24,9 +24,12 @@ app.get('/users', (req, res) => {
     res.send(users)
 });
 
-app.post('/users', (req, res) =>{
-    console.log('object');
-    console.log(req.body);
+app.post('/users', (req, res) => {
+    const user = req.body;
+    user.id = users.length + 1;
+    users.push(user);
+    console.log(user);
+    res.send(user)
 })
 
 app.get('/user/:id', (req, res) => {
