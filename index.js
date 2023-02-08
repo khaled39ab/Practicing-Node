@@ -1,6 +1,9 @@
 const express = require('express');
+const cors = require('cors');
 const app = express();
 const port = process.env.PORT || 5000;
+
+app.use(cors());
 
 const users = [
     { id: 1, name: 'Abad', email: 'abad@gmail.com' },
@@ -20,7 +23,7 @@ app.get('/users', (req, res) => {
     res.send(users)
 });
 
-app.get('/user/:id', (req, res) =>{
+app.get('/user/:id', (req, res) => {
     const id = req.params.id;
     // const user = users[id];
     const user = users.find(ur => ur.id == id)
