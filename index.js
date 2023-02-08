@@ -4,6 +4,7 @@ const app = express();
 const port = process.env.PORT || 5000;
 
 app.use(cors());
+app.use(express.json())
 
 const users = [
     { id: 1, name: 'Abad', email: 'abad@gmail.com' },
@@ -22,6 +23,11 @@ app.get('/', (req, res) => {
 app.get('/users', (req, res) => {
     res.send(users)
 });
+
+app.post('/users', (req, res) =>{
+    console.log('object');
+    console.log(req.body);
+})
 
 app.get('/user/:id', (req, res) => {
     const id = req.params.id;
