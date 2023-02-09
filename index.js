@@ -1,5 +1,6 @@
 const express = require('express');
 const cors = require('cors');
+const { MongoClient, ServerApiVersion } = require('mongodb');
 const app = express();
 const port = process.env.PORT || 5000;
 
@@ -14,13 +15,34 @@ const users = [
     { id: 5, name: 'Atik', email: 'Atik@gmail.com' },
     { id: 6, name: 'Akkkash', email: 'Akkkash@gmail.com' },
     { id: 7, name: 'Azmol', email: 'Azmol@gmail.com' }
-]
+];
+
+
+
+const uri = "mongodb+srv://NoMoUser:LKQtJ7QWzJMPIyUI@cluster0.oxd6r4z.mongodb.net/?retryWrites=true&w=majority";
+const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true, serverApi: ServerApiVersion.v1 });
+
+async function run() {
+    try{
+        const usersCollection = client.db("NoMOClient").collection("users");
+        const user = {name: 'Alu', email: 'alu@gmail.com'}
+        const result = await usersCollection.insertOne(user);
+        console.log(result);
+    }
+    finally{
+
+    }
+}
+
+run().catch(err =>console.log(err))
+
 
 app.get('/', (req, res) => {
     res.send("Hello node!!!")
 });
 
 app.get('/users', (req, res) => {
+    // console.log(req.query.email);
     res.send(users)
 });
 
@@ -28,9 +50,10 @@ app.post('/users', (req, res) => {
     const user = req.body;
     user.id = users.length + 1;
     users.push(user);
-    console.log(user);
+    // console.log(user);
     res.send(user)
-})
+});
+
 
 app.get('/user/:id', (req, res) => {
     const id = req.params.id;
