@@ -37,7 +37,7 @@ async function run() {
             const result = await usersCollection.insertOne(user);
             // user._id = result.insertedId;
             console.log(user);
-            res.send(user)
+            res.send(result)
         });
 
     }

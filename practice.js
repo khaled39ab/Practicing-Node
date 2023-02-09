@@ -20,17 +20,17 @@ const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology:
 
 const run = async () => {
     try {
-        const productsCollection = client.db("NoMoClient").collection("products");
+        const productsCollection = client.db("NoMOClient").collection("products");
 
         app.post('/products', async (req, res) => {
             const product = req.body;
             const result = await productsCollection.insertOne(product);
             console.log(product);
-            res.send(product)
+            res.send(result)
         });
     }
     finally {
-
+        // await client.close();
     }
 }
 
