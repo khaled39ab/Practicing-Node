@@ -7,6 +7,7 @@ const port = process.env.PORT || 5000;
 app.use(cors());
 app.use(express.json())
 
+/* 
 const users = [
     { id: 1, name: 'Abad', email: 'abad@gmail.com' },
     { id: 2, name: 'Abir', email: 'Abir@gmail.com' },
@@ -16,8 +17,7 @@ const users = [
     { id: 6, name: 'Akkkash', email: 'Akkkash@gmail.com' },
     { id: 7, name: 'Azmol', email: 'Azmol@gmail.com' }
 ];
-
-
+*/
 
 const uri = "mongodb+srv://NoMoUser:LKQtJ7QWzJMPIyUI@cluster0.oxd6r4z.mongodb.net/?retryWrites=true&w=majority";
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true, serverApi: ServerApiVersion.v1 });
@@ -25,18 +25,24 @@ const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology:
 async function run() {
     try {
         const usersCollection = client.db("NoMOClient").collection("users");
-        // const user = {name: 'Alu', email: 'alu@gmail.com'}
 
-        app.post('/users', async(req, res) => {
+        app.get('/users', async (req, res) => {
+            const cursor = usersCollection.find({});
+            const users = await cursor.toArray();
+            res.send(users)
+        });
+
+        app.post('/users', async (req, res) => {
             const user = req.body;
             const result = await usersCollection.insertOne(user);
-            user.id = result.insertedId;
+            // user._id = result.insertedId;
             console.log(user);
             res.send(user)
         });
+
     }
     finally {
-
+        // await client.close();
     }
 }
 
@@ -47,10 +53,12 @@ app.get('/', (req, res) => {
     res.send("Hello node!!!")
 });
 
+/* 
 app.get('/users', (req, res) => {
-    // console.log(req.query.email);
+    // console.log(req.query);
     res.send(users)
 });
+*/
 
 /* 
 app.post('/users', (req, res) => {
@@ -62,12 +70,14 @@ app.post('/users', (req, res) => {
 });
 */
 
+/* 
 app.get('/user/:id', (req, res) => {
     const id = req.params.id;
     // const user = users[id];
     const user = users.find(ur => ur.id == id)
     res.send(user)
-})
+});
+*/
 
 app.listen(port, () => {
     console.log("App is running", port);
