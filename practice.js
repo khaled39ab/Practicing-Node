@@ -22,7 +22,7 @@ const run = async () => {
     try {
         const productsCollection = client.db("NoMoClient").collection("products");
 
-        app.post('/products', async(req, res) => {
+        app.post('/products', async (req, res) => {
             const product = req.body;
             const result = await productsCollection.insertOne(product);
             console.log(product);
@@ -33,6 +33,8 @@ const run = async () => {
 
     }
 }
+
+run().catch(err => console.log(err))
 
 app.get('/', (req, res) => {
     res.send('App is running')
