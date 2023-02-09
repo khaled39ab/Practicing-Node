@@ -23,18 +23,24 @@ const uri = "mongodb+srv://NoMoUser:LKQtJ7QWzJMPIyUI@cluster0.oxd6r4z.mongodb.ne
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true, serverApi: ServerApiVersion.v1 });
 
 async function run() {
-    try{
+    try {
         const usersCollection = client.db("NoMOClient").collection("users");
-        const user = {name: 'Alu', email: 'alu@gmail.com'}
-        const result = await usersCollection.insertOne(user);
-        console.log(result);
+        // const user = {name: 'Alu', email: 'alu@gmail.com'}
+
+        app.post('/users', async(req, res) => {
+            const user = req.body;
+            const result = await usersCollection.insertOne(user);
+            user.id = result.insertedId;
+            console.log(user);
+            res.send(user)
+        });
     }
-    finally{
+    finally {
 
     }
 }
 
-run().catch(err =>console.log(err))
+run().catch(err => console.log(err))
 
 
 app.get('/', (req, res) => {
@@ -46,6 +52,7 @@ app.get('/users', (req, res) => {
     res.send(users)
 });
 
+/* 
 app.post('/users', (req, res) => {
     const user = req.body;
     user.id = users.length + 1;
@@ -53,7 +60,7 @@ app.post('/users', (req, res) => {
     // console.log(user);
     res.send(user)
 });
-
+*/
 
 app.get('/user/:id', (req, res) => {
     const id = req.params.id;
