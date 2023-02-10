@@ -29,6 +29,14 @@ const run = async () => {
             res.send(result);
         });
 
+        app.get('/products/:id', async (req, res) => {
+            const id = req.params.id;
+            const query = {_id: new ObjectId(id)}
+            // console.log(id, query);
+            const result = productsCollection.findOne(query);
+            res.send(result);
+        });
+
         app.post('/products', async (req, res) => {
             const product = req.body;
             const result = await productsCollection.insertOne(product);
@@ -40,7 +48,8 @@ const run = async () => {
             const query = {_id: new ObjectId(id)}
             const result = await productsCollection.deleteOne(query)
             res.send(result)
-        })
+        });
+
     }
     finally {
         // await client.close();
