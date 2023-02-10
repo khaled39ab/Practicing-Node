@@ -32,13 +32,11 @@ const run = async () => {
         app.post('/products', async (req, res) => {
             const product = req.body;
             const result = await productsCollection.insertOne(product);
-            // console.log(product);
             res.send(result)
         });
 
         app.delete('/products/:id', async(req, res) => {
             const id = req.params.id;
-            // console.log(id);
             const query = {_id: new ObjectId(id)}
             const result = await productsCollection.deleteOne(query)
             res.send(result)
