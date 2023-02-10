@@ -22,9 +22,17 @@ const run = async () => {
     try {
         const productsCollection = client.db("NoMOClient").collection("products");
 
+        app.get('/products', async (req, res) => {
+            const query = {};
+            const cursor = productsCollection.find(query);
+            const result = await cursor.toArray();
+            res.send(result);
+        });
+
         app.post('/products', async (req, res) => {
             const product = req.body;
             const result = await productsCollection.insertOne(product);
+            product._id = result.insertedId;
             console.log(product);
             res.send(result)
         });
@@ -40,9 +48,11 @@ app.get('/', (req, res) => {
     res.send('App is running')
 });
 
+/* 
 app.get('/products', (req, res) => {
     res.send(products)
 });
+*/
 
 /* app.post('/products', (req, res) => {
     const product = req.body;
