@@ -42,7 +42,7 @@ const run = async () => {
             res.send(result)
         });
 
-        app.put('/products/:id', async (req, res) => {
+        app.put('/product/:id', async (req, res) => {
             const id = req.params.id;
             const product = req.body;
             const query = { _id: new ObjectId(id) };
