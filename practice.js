@@ -42,6 +42,21 @@ const run = async () => {
             res.send(result)
         });
 
+        app.put('/products/:id', async (req, res) => {
+            const id = req.params.id;
+            const product = req.body;
+            const query = { _id: new ObjectId(id) };
+            const options = { upsert: true };
+            const updateProduct = {
+                $set: {
+                    name: product.name,
+                    price: product.price
+                }
+            };
+            const result = await productsCollection.updateOne(query, updateProduct, options);
+            res.send(result);
+        });
+
         app.delete('/products/:id', async (req, res) => {
             const id = req.params.id;
             const query = { _id: new ObjectId(id) }
